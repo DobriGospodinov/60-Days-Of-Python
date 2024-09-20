@@ -13,8 +13,10 @@ convert_button = sg.Button("Convert")
 exit_button = sg.Button("Exit")
 output_label = sg.Text(key="output", text_color="black")
 
-window = sg.Window("Convertor", layout=[[label1, input1],
-                                             [label2, input2],
+col1 = sg.Column([[label1], [label2]])
+col2 = sg.Column([[input1], [input2]])
+
+window = sg.Window("Convertor", layout=[[col1, col2],
                                              [convert_button, exit_button, output_label]])
 
 while True:
