@@ -1,4 +1,7 @@
+import FreeSimpleGUI
 import FreeSimpleGUI as sg
+
+FreeSimpleGUI.theme("BlueMono")
 
 label1 = sg.Text("Enter feet:")
 input1 = sg.Input(key="feet")
@@ -6,23 +9,29 @@ input1 = sg.Input(key="feet")
 label2 = sg.Text("Enter inches:")
 input2 = sg.Input(key="inches")
 
-button = sg.Button("Convert")
+convert_button = sg.Button("Convert")
+exit_button = sg.Button("Exit")
 output_label = sg.Text(key="output", text_color="black")
 
 window = sg.Window("Convertor", layout=[[label1, input1],
-                                        [label2, input2],
-                                        [button, output_label]])
+                                             [label2, input2],
+                                             [convert_button, exit_button, output_label]])
 
 while True:
     event, values = window.read()
-    print(event)
-    print(values)
+
     match event:
         case "Convert":
-            feet = float(values["feet"])
-            inches = float(values["inches"])
-            meters = feet * 0.3048 + inches * 0.0254
-            window["output"].update(value=str(meters) + " m")
+            try:
+                feet = float(values["feet"])
+                inches = float(values["inches"])
+                meters = feet * 0.3048 + inches * 0.0254
+                window["output"].update(value=str(meters) + " m")
+            except ValueError:
+                sg.popup("Please enter feet and inches to convert!")
+
+        case "Exit":
+            break
 
         case sg.WIN_CLOSED:
             break
