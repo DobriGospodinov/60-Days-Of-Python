@@ -29,12 +29,16 @@ while True:
 
     match event:
         case "Add":
-            todos = functions.get_todos()
-            new_todo = values['todo'] + "\n"
-            todos.append(new_todo)
-            functions.write_todos(todos)
-            window['todos'].update(values=todos)
-            window['todo'].update(value='')
+            new_todo = values['todo'].strip()
+            if new_todo:  # Check if the input is not empty
+                todos = functions.get_todos()
+                new_todo += "\n"
+                todos.append(new_todo)
+                functions.write_todos(todos)
+                window['todos'].update(values=todos)
+                window['todo'].update(value='')
+            else:
+                sg.popup("Please enter a to-do item.", font=("Helvetica", 15))
 
         case "Edit":
             try:
