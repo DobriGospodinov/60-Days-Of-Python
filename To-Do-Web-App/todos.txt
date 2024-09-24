@@ -2,6 +2,3 @@ Master Python
 Learn Spanish
 Run 5k
 Stretch
-MeditateAdd Complete Functionality
-Add Complete Functionalit
-Add Complete Functionality
