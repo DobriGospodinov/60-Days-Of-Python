@@ -19,6 +19,8 @@ for index,row in df.iterrows():
         if i == 0:
             pdf.cell(w=0, h=12, txt=row["Topic"], align="L", ln=1, border=0)
             pdf.line(x1=10, y1=22, x2=200, y2=22)
+
+            # set footer
             pdf.ln(265)
             pdf.set_font(family="Times", style="I", size=8)
             pdf.set_text_color(180, 180, 180)
@@ -30,6 +32,7 @@ for index,row in df.iterrows():
             pdf.set_text_color(180, 180, 180)
             pdf.cell(w=0, h=12, txt=row["Topic"], align="R")
 
+        # add lines to pages so it looks like a note book
         for i in range(22, 290, 10):
             pdf.line(10, i, 200, i)
 
