@@ -4,13 +4,14 @@ import pandas as pd
 
 app = Flask(__name__)
 
+df = pd.read_csv("dictionary.csv")
+
 @app.route("/")
 def home():
     return render_template("home.html")
 
 @app.route("/api/v1/<word>")
 def description(word):
-    df = pd.read_csv("dictionary.csv")
     definition = df.loc[df["word"] == word]["definition"].squeeze()
     return {"word": word,
             "description": definition}
