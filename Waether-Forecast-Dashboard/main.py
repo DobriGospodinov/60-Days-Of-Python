@@ -11,31 +11,34 @@ st.subheader(f"{option} for the next {days} days in {place}")
 
 
 if place:
-    # Get the temperature/sky data
-    filtered_data = get_data(place, days)
+    try:
+        # Get the temperature/sky data
+        filtered_data = get_data(place, days)
 
-    if option == "Temperature":
-        temperatures = [dict["main"]["temp"] for dict in filtered_data]
-        temperatures = [float(temp / 10) for temp in temperatures]
-        dates =[dict["dt_txt"] for dict in filtered_data]
+        if option == "Temperature":
+            temperatures = [dict["main"]["temp"] for dict in filtered_data]
+            temperatures = [float(temp / 10) for temp in temperatures]
+            dates =[dict["dt_txt"] for dict in filtered_data]
 
-        # Create temperature plot
-        figure = px.line(x=dates, y=temperatures, labels={"x": "Date", "y": "Temperature (C)"})
-        st.plotly_chart(figure)
+            # Create temperature plot
+            figure = px.line(x=dates, y=temperatures, labels={"x": "Date", "y": "Temperature (C)"})
+            st.plotly_chart(figure)
 
-# My solution to obtain the list of filepaths
-    # if option == "Sky":
-    #     sky_conditions = [dict["weather"][0]["main"] for dict in filtered_data]
-    #     image_filepaths = [f"images/{condition.lower()}.png" for condition in sky_conditions]
-    #     st.image(image_filepaths, width=110)
+    # My solution to obtain the list of filepaths
+        # if option == "Sky":
+        #     sky_conditions = [dict["weather"][0]["main"] for dict in filtered_data]
+        #     image_filepaths = [f"images/{condition.lower()}.png" for condition in sky_conditions]
+        #     st.image(image_filepaths, width=110)
 
-# Alternative way to translate the conditions to image paths (which was the original course solution)
-# a.k.a "data translation"
+    # Alternative way to translate the conditions to image paths (which was the original course solution)
+    # a.k.a "data translation"
 
-    if option == "Sky":
-        sky_conditions = [dict["weather"][0]["main"] for dict in filtered_data]
-        dates = [dict["dt_txt"] for dict in filtered_data]
-        images = {"Clear":"images/clear.png", "Clouds":"images/clouds.png", \
-                  "Rain":"images/rain.png", "Snow":"images/snow.png"}
-        image_filepaths = [images[condition] for condition in sky_conditions]
-        st.image(image_filepaths, width=110, caption=dates)
+        if option == "Sky":
+            sky_conditions = [dict["weather"][0]["main"] for dict in filtered_data]
+            dates = [dict["dt_txt"] for dict in filtered_data]
+            images = {"Clear":"images/clear.png", "Clouds":"images/clouds.png", \
+                      "Rain":"images/rain.png", "Snow":"images/snow.png"}
+            image_filepaths = [images[condition] for condition in sky_conditions]
+            st.image(image_filepaths, width=110, caption=dates)
+    except KeyError:
+        st.error("Place with such name was not found!")
