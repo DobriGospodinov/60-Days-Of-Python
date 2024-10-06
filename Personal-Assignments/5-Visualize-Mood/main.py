@@ -8,12 +8,12 @@ from datetime import datetime
 
 
 # Parse data
-filepaths = glob.glob("diary/*.txt")
+filepaths = sorted(glob.glob("diary/*.txt"))
 analyzer = SentimentIntensityAnalyzer()
 positivity = []
 negativity = []
 dates = []
-year = ""
+
 
 for filepath in filepaths:
     with open(filepath, 'r') as file:
@@ -23,11 +23,8 @@ for filepath in filepaths:
     negativity.append(sentiment["neg"])
     date = filepath[6:16]
     date_obj = datetime.strptime(date, "%Y-%m-%d")
-    formatted_date = date_obj.strftime("%b %d")
+    formatted_date = date_obj.strftime("%Y-%b-%d")
     dates.append(formatted_date)
-    year = filepath[6:10]
-
-dates[0] = dates[0] + " " + year
 
 # Genetare website
 st.title("Diary Tone")
