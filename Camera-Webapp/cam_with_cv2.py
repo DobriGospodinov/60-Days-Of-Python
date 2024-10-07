@@ -1,6 +1,5 @@
 import cv2
 import streamlit as st
-import time
 from datetime import datetime
 
 
@@ -11,7 +10,6 @@ start = st.button("Start Camera")
 if start:
     streamlit_image = st.image([])
     camera = cv2.VideoCapture(0)
-    time.sleep(1)
 
     while True:
         check, frame = camera.read()
