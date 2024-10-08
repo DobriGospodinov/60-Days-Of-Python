@@ -1,6 +1,9 @@
 import cv2
 import time
+import glob
+import os
 from emailing import send_email
+
 
 
 video = cv2.VideoCapture(0)
@@ -10,6 +13,12 @@ time.sleep(1)
 # to determine if there were changes/movement
 first_frame = None
 status_list = []
+count = 1
+
+def clean_folder():
+    images = glob.glob("images/*.png")
+    for image in images:
+        os.remove(image)
 
 while True:
     status = 0
@@ -43,12 +52,21 @@ while True:
         if rectangle.any():
             status = 1
 
+            # Capture image,store it, update the image counter:
+            cv2.imwrite(f"images/{count}.png", frame)
+            count = count + 1
+            all_images = glob.glob("images/*.png")
+            index = int(len(all_images) / 2)
+            image_with_object = all_images[index]
+
+
     status_list.append(status)
     status_list = status_list[-2:]
 
     # A check if object exited the frame
     if status_list[0] == 1 and status_list[1] == 0:
-        send_email()
+        send_email(image_with_object)
+        clean_folder()
 
 
     cv2.imshow("My video", frame)
