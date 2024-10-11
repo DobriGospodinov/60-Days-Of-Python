@@ -31,6 +31,11 @@ class Hotel:
                                                        # data columns, not the index.
 
 
+class SpaHotel(Hotel):
+    def book_spa(self):
+        pass
+
+
 class Ticket:
     def __init__(self, customer_name, hotel_object):
         self.customer_name = customer_name
@@ -45,6 +50,20 @@ class Ticket:
         """
         return content
 
+
+class SpaTicket:
+    def __init__(self, customer_name, hotel_object):
+        self.customer_name = customer_name
+        self.hotel = hotel_object
+
+    def generate(self):
+        content = f"""
+        Thank you for your SPA reservation!
+        Here is your booking data:
+        Name: {self.customer_name} 
+        Hotel name: {self.hotel.name}
+        """
+        return content
 
 class CreditCard:
     def __init__(self, number):
@@ -71,7 +90,7 @@ class SecureCreditCard(CreditCard):
 # MAIN LOOP:
 print(df)
 hotel_ID = input("Enter the id of the hotel: ")
-hotel = Hotel(hotel_ID)
+hotel = SpaHotel(hotel_ID)
 
 if hotel.available():
     credit_card = SecureCreditCard(number="1234567890123456")
@@ -81,6 +100,11 @@ if hotel.available():
             name = input("Enter your name: ")
             reservation_ticket = Ticket(customer_name=name, hotel_object=hotel)
             print(reservation_ticket.generate())
+            spa = input("Do you want to book a spa package? ")
+            if spa == "yes":
+                hotel.book_spa()
+                spa_ticket = SpaTicket(customer_name=name, hotel_object=hotel)
+                print(spa_ticket.generate())
         else:
             print("Credit card authentication failed.")
     else:
