@@ -24,7 +24,7 @@ class AgeCalculator(QWidget):
         grid.addWidget(self.name_line_edit, 0, 1)
         grid.addWidget(date_birth_label, 1, 0)
         grid.addWidget(self.date_birth_line_edit, 1, 1)
-        grid.addWidget(calculate_button, 2, 0, 1, 2) # last two digits mean 1 row and 2 columns
+        grid.addWidget(calculate_button, 2, 0, 1, 2) # last two digits mean the widget size is 1 row and 2 columns
         grid.addWidget(self.output_label, 3, 0, 1, 2)
 
         self.setLayout(grid)
