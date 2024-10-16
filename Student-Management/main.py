@@ -1,13 +1,10 @@
 from idlelib.help_about import AboutDialog
-
 from PyQt6.QtGui import QAction, QIcon
-from PyQt6.QtWidgets import QApplication, QLabel, QWidget, QGridLayout, QLineEdit, QPushButton, QMainWindow, \
+from PyQt6.QtWidgets import QApplication, QLabel, QGridLayout, QLineEdit, QPushButton, QMainWindow, \
     QTableWidget, QTableWidgetItem, QDialog, QVBoxLayout, QComboBox, QToolBar, QStatusBar, QMessageBox
 from PyQt6.QtCore import Qt
 import sys
 import sqlite3
-
-from streamlit import connection
 
 
 class DatabaseConnection:
