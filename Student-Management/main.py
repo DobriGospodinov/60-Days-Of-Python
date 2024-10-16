@@ -1,3 +1,5 @@
+from idlelib.help_about import AboutDialog
+
 from PyQt6.QtGui import QAction, QIcon
 from PyQt6.QtWidgets import QApplication, QLabel, QWidget, QGridLayout, QLineEdit, QPushButton, QMainWindow, \
     QTableWidget, QTableWidgetItem, QDialog, QVBoxLayout, QComboBox, QToolBar, QStatusBar, QMessageBox
@@ -25,8 +27,10 @@ class MainWindow(QMainWindow):
         add_student_action.triggered.connect(self.insert)
         file_menu_item.addAction(add_student_action)
 
+        # Add about action
         about_action = QAction("About", self)
         help_menu_item.addAction(about_action)
+        about_action.triggered.connect(self.about)
 
         # Add search to edit menu and connect the search action
         search_action = QAction(QIcon("icons/search.png"),"Search", self)
@@ -96,6 +100,10 @@ class MainWindow(QMainWindow):
 
     def delete(self):
         dialog = DeleteDialog()
+        dialog.exec()
+
+    def about(self):
+        dialog = AboutDialog()
         dialog.exec()
 
 
@@ -234,7 +242,6 @@ class EditDialog(QDialog):
         self.accept()
 
 
-
 class DeleteDialog(QDialog):
     def __init__(self):
         super().__init__()
@@ -272,6 +279,17 @@ class DeleteDialog(QDialog):
         confirmation_widget.setWindowTitle("Success")
         confirmation_widget.setText("The record was deleted successfully!")
         confirmation_widget.exec()
+
+
+class AboutDialog(QMessageBox):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("About")
+        content = """
+        This app was created during the course "60-Days-of-Python Mega Course".
+        Feel free to modify and reuse this app.
+        """
+        self.setText(content)
 
 
 app = QApplication(sys.argv)
