@@ -1,11 +1,25 @@
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+import os
+from flask_mail import Mail, Message
+
+password = os.getenv('GMAIL')
+sender = os.getenv('GMAIL_SENDER')
 
 app = Flask(__name__)
+
 app.config["SECRET_KEY"] = "myapplicationkey123"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
+app.config["MAIL_SERVER"] = "smtp.gmail.com"
+app.config["MAIL_PORT"] = 465
+app.config["MAIL_USE_SSL"] = True
+app.config["MAIL_USERNAME"] = sender
+app.config["MAIL_PASSWORD"] = password
+
 db = SQLAlchemy(app)
+
+mail = Mail(app)
 
 class Form(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -29,7 +43,18 @@ def index():
                     date=date_obj, occupation=occupation)
         db.session.add(form)
         db.session.commit()
+
+        message_body = f"Thank you for your submission, {first_name}. "
+        message = Message(subject="New form submission", sender=app.config["MAIL_USERNAME"],
+                          recipients=[email], body=message_body)
+
+        mail.send(message)
+
         flash("Your form was submitted successfully!", "success")
+
+        # code to do a GET request, instead of doing the POST again (which will submit
+        # the form and send the email again), when the user refreshes the webpage
+        return redirect(url_for("index"))
 
     return render_template("index.html")
 
